@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>recipes</name>
-	<description>Recipes project for udemy guru</description>
+	<description>Recipes example project</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

@@ -1,1 +1,1 @@
-# Recipe project for udemy course
+# Recipes example project
