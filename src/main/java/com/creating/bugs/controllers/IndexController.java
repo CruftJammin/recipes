@@ -30,10 +30,6 @@ public class IndexController {
 
     @RequestMapping({"", "/", "index"})
     public String getIndexPage(Model model) {
-
-        Optional<Category> categoryOptional = categoryRepository.findByDescription("American");
-        Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
-
         Iterable<Recipe> recipeList = recipeService.getAllRecipes();
 
         model.addAttribute("recipeList", recipeList);
