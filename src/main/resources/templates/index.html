@@ -3,31 +3,114 @@
 <head>
     <meta charset="UTF-8" />
     <title>Recipe Home</title>
+
+    <!--&lt;!&ndash; Latest compiled and minified CSS &ndash;&gt;-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+
+    <!--&lt;!&ndash; Optional theme &ndash;&gt;-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
+
+    <link rel="stylesheet" href="https://bootswatch.com/3/readable/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}">
+
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+
 </head>
 <body>
-<h1>Here are my recipes.</h1>
-<table border="1" style="width:1000px">
-    <tr>
-        <td>Recipe Description</td>
-        <td>Ingredients</td>
-    </tr>
-    <th:block th:each="recipe : ${recipeList}">
-        <tr>
-            <td th:text="${recipe.description}">A recipe name</td>
-            <td>
-                <th:block th:each="ingredient : ${recipe.ingredients}">
-                    <table border="0" cellpadding="1" cellspacing="1">
-                        <tr>
-                            <td th:text="${ingredient.description}">Ingredient</td>
-                            <td th:text="${ingredient.unitOfMeasure.description}">Unit of measure</td>
-                            <td th:text="${ingredient.amount}">3</td>
-                        </tr>
-                    </table>
-                </th:block>
-            </td>
-        </tr>
-    </th:block>
-</table>
+
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h1 class="panel-title">Here are my recipes!</h1>
+                </div>
+                <div class="panel-body">
+                    <div class="table-response" th:if="${not #lists.isEmpty(recipeList)}">
+                        <table class="table table-hover">
+                            <thead class="thead-inverse">
+                            <tr>
+                                <th>Description</th>
+                                <th>Ingredients</th>
+                            </tr>
+                            </thead>
+                            <tr th:each="recipe : ${recipeList}">
+                                <td th:text="${recipe.description}">
+                                    Tasty Recipe 1
+                                </td>
+                                <td style="white-space: nowrap">
+                                    <ul style="padding: 0; list-style-type: none">
+                                        <th:block th:each="ingredient : ${recipe.ingredients}">
+                                            <li th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}">1 Unit Ingredient</li>
+                                        </th:block>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr th:remove="all">
+                                <td th:text="${recipe.description}">
+                                    Tasty Recipe 2
+                                </td>
+                                <td style="white-space: nowrap">
+                                    <ul style="padding: 0; list-style-type: none">
+                                        <th:block th:each="ingredient : ${recipe.ingredients}">
+                                            <li th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}">1 Unit Ingredient</li>
+                                            <li th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}">1 Unit Ingredient</li>
+                                            <li th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}">1 Unit Ingredient</li>
+                                        </th:block>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr th:remove="all">
+                                <td th:text="${recipe.description}">
+                                    Tasty Recipe 3
+                                </td>
+                                <td style="white-space: nowrap">
+                                    <ul style="padding: 0; list-style-type: none">
+                                        <th:block th:each="ingredient : ${recipe.ingredients}">
+                                            <li th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}">1 Unit Ingredient</li>
+                                            <li th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}">1 Unit Ingredient</li>
+                                            <li th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}">1 Unit Ingredient</li>
+                                            <li th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}">1 Unit Ingredient</li>
+                                            <li th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}">1 Unit Ingredient</li>
+                                            <li th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}">1 Unit Ingredient</li>
+                                            <li th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}">1 Unit Ingredient</li>
+                                            <li th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}">1 Unit Ingredient</li>
+                                            <li th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasure.description + ' ' + ingredient.description}">1 Unit Ingredient</li>
+                                        </th:block>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<table border="1" style="width:1000px">-->
+    <!--<tr>-->
+        <!--<td>Recipe Description</td>-->
+        <!--<td>Ingredients</td>-->
+    <!--</tr>-->
+    <!--<th:block th:each="recipe : ${recipeList}">-->
+        <!--<tr>-->
+            <!--<td th:text="${recipe.description}">A recipe name</td>-->
+            <!--<td>-->
+                <!--<th:block th:each="ingredient : ${recipe.ingredients}">-->
+                    <!--<table border="0" cellpadding="1" cellspacing="1">-->
+                        <!--<tr>-->
+                            <!--<td th:text="${ingredient.description}">Ingredient</td>-->
+                            <!--<td th:text="${ingredient.unitOfMeasure.description}">Unit of measure</td>-->
+                            <!--<td th:text="${ingredient.amount}">3</td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+                <!--</th:block>-->
+            <!--</td>-->
+        <!--</tr>-->
+    <!--</th:block>-->
+<!--</table>-->
 
 </body>
 </html>

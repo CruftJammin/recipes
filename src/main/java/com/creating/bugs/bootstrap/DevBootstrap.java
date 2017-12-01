@@ -4,9 +4,11 @@ import com.creating.bugs.domain.*;
 import com.creating.bugs.repositories.CategoryRepository;
 import com.creating.bugs.repositories.RecipeRepository;
 import com.creating.bugs.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -14,6 +16,7 @@ import java.util.*;
 /**
  * Created by steve on 21/11/17.
  */
+@Slf4j
 @Component
 public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> {
     private static final String EXPECTED_UNIT_OF_MEASURE_NOT_FOUND = "Expected unit of measure was not found!";
@@ -29,19 +32,24 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        log.debug("Running bootstrap code to initialize data");
         recipeRepository.saveAll(getRecipes());
     }
 
     private List<Recipe> getRecipes() {
+        log.debug("Building recipe list");
         List<Recipe> listOfRecipes = new ArrayList<>();
 
+        log.debug("Getting categories");
         Optional<Category> optionalMexicanCategory = categoryRepository.findByDescription("Mexican");
         if (!optionalMexicanCategory.isPresent()) {
             throw new RuntimeException("Expected category was not found!");
         }
         Category mexicanCategory = optionalMexicanCategory.get();
 
+        log.debug("Getting units of measurement");
         Optional<UnitOfMeasure> optionalTablespoon = unitOfMeasureRepository.findByDescription("Tablespoon");
         if (!optionalTablespoon.isPresent()) {
             throw new RuntimeException(EXPECTED_UNIT_OF_MEASURE_NOT_FOUND);
@@ -61,6 +69,7 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
         UnitOfMeasure teaspoon = optionalTeaspoon.get();
         UnitOfMeasure whole = optionalWhole.get();
 
+        log.debug("Creating perfect guacamole recipe");
         Recipe perfectGuacamole = new Recipe();
         perfectGuacamole.setCookTime(0);
         perfectGuacamole.setDescription("Guacamole, a dip made from avocados, is originally from Mexico. The name is derived from two Aztec Nahuatl words—ahuacatl (avocado) and molli (sauce).\n" +
@@ -97,7 +106,7 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
         perfectGuacamole.getCategories().add(mexicanCategory);
         listOfRecipes.add(perfectGuacamole);
 
-
+        log.debug("Creating spicy chicken tacos recipe");
         Recipe spicyChickenTacos = new Recipe();
         spicyChickenTacos.setPrepTime(20);
         spicyChickenTacos.setCookTime(15);

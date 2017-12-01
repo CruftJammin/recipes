@@ -1,8 +1,6 @@
 package com.creating.bugs.controllers;
 
-import com.creating.bugs.domain.Category;
 import com.creating.bugs.domain.Recipe;
-import com.creating.bugs.domain.UnitOfMeasure;
 import com.creating.bugs.repositories.CategoryRepository;
 import com.creating.bugs.repositories.UnitOfMeasureRepository;
 import com.creating.bugs.services.RecipeService;
@@ -10,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Optional;
+import java.util.Set;
 
 /**
  * Created by steve on 12/11/17.
@@ -30,11 +28,7 @@ public class IndexController {
 
     @RequestMapping({"", "/", "index"})
     public String getIndexPage(Model model) {
-
-        Optional<Category> categoryOptional = categoryRepository.findByDescription("American");
-        Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
-
-        Iterable<Recipe> recipeList = recipeService.getAllRecipes();
+        Set<Recipe> recipeList = recipeService.getAllRecipes();
 
         model.addAttribute("recipeList", recipeList);
         return "index";
