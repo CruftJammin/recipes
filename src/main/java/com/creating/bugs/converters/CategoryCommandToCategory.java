@@ -16,7 +16,7 @@ public class CategoryCommandToCategory implements Converter<CategoryCommand, Cat
     @Synchronized
     @Nullable
     @Override
-    public Category convert(CategoryCommand source) {
+    public Category convert(@Nullable CategoryCommand source) {
         if (source == null) {
             return null;
         }
