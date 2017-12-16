@@ -1,5 +1,8 @@
 package com.creating.bugs.services;
 
+import com.creating.bugs.commands.RecipeCommand;
+import com.creating.bugs.converters.RecipeCommandToRecipe;
+import com.creating.bugs.converters.RecipeToRecipeCommand;
 import com.creating.bugs.domain.Recipe;
 import com.creating.bugs.repositories.RecipeRepository;
 import org.junit.Before;
@@ -10,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.*;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -26,11 +30,17 @@ public class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test
@@ -87,6 +97,34 @@ public class RecipeServiceImplTest {
         assertNotNull("Null recipe returned", recipeReturned);
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    public void saveRecipeCommand_RecipeCommandProvided_ProvidedRecipeCommandIsConvertedAndSaved() throws Exception {
+        RecipeCommand recipeCommand = new RecipeCommand();
+
+        Recipe recipeFromConverter = new Recipe();
+        recipeFromConverter.setId(1L);
+
+        when(recipeCommandToRecipe.convert(any(RecipeCommand.class))).thenReturn(recipeFromConverter);
+        when(recipeRepository.save(any(Recipe.class))).thenReturn(recipeFromConverter);
+
+        recipeService.saveRecipeCommand(recipeCommand);
+
+        verify(recipeCommandToRecipe, times(1)).convert(recipeCommand);
+        verify(recipeRepository, times(1)).save(recipeFromConverter);
+        verify(recipeToRecipeCommand, times(1)).convert(recipeFromConverter);
+    }
+
+    @Test
+    public void testDeleteById() throws Exception {
+        //given
+        Long idToDelete = 2L;
+
+        //when
+        recipeService.deleteById(idToDelete);
+
+        verify(recipeRepository, times(1)).deleteById(anyLong());
     }
 
     private Set<Recipe> getSetOfManyRecipes() {

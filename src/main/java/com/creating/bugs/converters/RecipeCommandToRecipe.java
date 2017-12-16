@@ -37,7 +37,7 @@ public class RecipeCommandToRecipe implements Converter<RecipeCommand, Recipe> {
         if (source == null) {
             return null;
         }
-        Recipe recipe = new Recipe();
+        final Recipe recipe = new Recipe();
         recipe.setId(source.getId());
         recipe.setDescription(source.getDescription());
         recipe.setPrepTime(source.getPrepTime());

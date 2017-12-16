@@ -27,9 +27,12 @@ public class IngredientToIngredientCommand implements Converter<Ingredient, Ingr
             return null;
         }
 
-        IngredientCommand convertedIngredientCommand = new IngredientCommand();
+        final IngredientCommand convertedIngredientCommand = new IngredientCommand();
         convertedIngredientCommand.setId(source.getId());
         convertedIngredientCommand.setDescription(source.getDescription());
+        if (source.getRecipe() != null) {
+            convertedIngredientCommand.setRecipeId(source.getRecipe().getId());
+        }
         convertedIngredientCommand.setAmount(source.getAmount());
         convertedIngredientCommand.setUnitOfMeasure(unitOfMeasureConverter.convert(source.getUnitOfMeasure()));
 

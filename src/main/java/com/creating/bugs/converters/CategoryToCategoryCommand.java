@@ -21,7 +21,7 @@ public class CategoryToCategoryCommand implements Converter<Category, CategoryCo
             return null;
         }
 
-        CategoryCommand convertedCategoryCommand = new CategoryCommand();
+        final CategoryCommand convertedCategoryCommand = new CategoryCommand();
         convertedCategoryCommand.setId(source.getId());
         convertedCategoryCommand.setDescription(source.getDescription());
 
