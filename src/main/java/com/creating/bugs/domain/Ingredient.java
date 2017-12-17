@@ -8,7 +8,8 @@ import java.math.BigDecimal;
 /**
  * Created by steve on 15/11/17.
  */
-@Data
+@Getter
+@Setter
 @Entity
 public class Ingredient {
 

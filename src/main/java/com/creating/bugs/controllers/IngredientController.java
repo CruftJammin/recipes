@@ -1,9 +1,12 @@
 package com.creating.bugs.controllers;
 
 import com.creating.bugs.commands.IngredientCommand;
+import com.creating.bugs.commands.RecipeCommand;
+import com.creating.bugs.commands.UnitOfMeasureCommand;
 import com.creating.bugs.services.IngredientService;
 import com.creating.bugs.services.RecipeService;
 import com.creating.bugs.services.UnitOfMeasureService;
+import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +50,23 @@ public class IngredientController {
     }
 
     @GetMapping
+    @RequestMapping("/recipe/{recipeId}/ingredient/new")
+    public String newIngredient(@PathVariable String recipeId, Model model) {
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+        //todo raise exception if null
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        model.addAttribute("ingredient", ingredientCommand);
+
+        ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
+
+        model.addAttribute("uomList", unitOfMeasureService.listAllUnitOfMeasures());
+
+        return "recipe/ingredient/ingredientform";
+    }
+
+    @GetMapping
     @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/update")
     public String updateRecipeIngredient(@PathVariable String recipeId,
                                          @PathVariable String ingredientId,
@@ -56,6 +76,16 @@ public class IngredientController {
         model.addAttribute("uomList", unitOfMeasureService.listAllUnitOfMeasures());
 
         return "recipe/ingredient/ingredientform";
+    }
+
+    @GetMapping
+    @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/delete")
+    public String deleteRecipeIngredient(@PathVariable String recipeId,
+                                         @PathVariable String ingredientId,
+                                         Model model) {
+        model.addAttribute("ingredient", ingredientService.deleteIngredientFromRecipe(Long.valueOf(recipeId), Long.valueOf(ingredientId)));
+
+        return "redirect:/recipe/" + recipeId + "/ingredients";
     }
 
     @PostMapping
